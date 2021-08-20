@@ -9,6 +9,7 @@ const Component = () => {
   const init = (target: Element, tsx: Tsx) => {
     $target = target;
     $tsx = tsx;
+    render();
   };
 
   const render = () => ($target.innerHTML = $tsx());
@@ -16,4 +17,4 @@ const Component = () => {
   return { init, render };
 };
 
-export default Component;
+export default Component();

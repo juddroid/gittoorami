@@ -1,9 +1,10 @@
-import HomeSweetHome from './HomeSweetHome';
 import '../styles/index.css';
+import App from './App';
+import Component from './components/core/Component';
 
-const App = () => {
+const Root = () => {
   const $root = document.querySelector('#root');
-  $root.innerHTML = HomeSweetHome();
+  Component.init($root, App);
 };
 
-window.addEventListener('DOMContentLoaded', App);
+window.addEventListener('DOMContentLoaded', Root);
