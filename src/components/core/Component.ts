@@ -31,7 +31,10 @@ const Component = () => {
   };
 
   const render = () => {
+    // initialize
     idx = 0;
+    eventSet['click'].length = 0;
+
     $target.innerHTML = $tsx();
     document.addEventListener('click', listener);
   };
