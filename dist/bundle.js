@@ -100,13 +100,33 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, style) {\
 
 /***/ }),
 
+/***/ "./src/App.tsx":
+/*!*********************!*\
+  !*** ./src/App.tsx ***!
+  \*********************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+eval("\nexports.__esModule = true;\nvar elements = __webpack_require__(/*! typed-html */ \"./node_modules/typed-html/dist/src/elements.js\");\nvar HomeSweetHome_1 = __webpack_require__(/*! ./HomeSweetHome */ \"./src/HomeSweetHome.tsx\");\nvar App = function () {\n    return elements.createElement(HomeSweetHome_1[\"default\"], null);\n};\nexports.default = App;\n\n\n//# sourceURL=webpack://gittoorami/./src/App.tsx?");
+
+/***/ }),
+
 /***/ "./src/HomeSweetHome.tsx":
 /*!*******************************!*\
   !*** ./src/HomeSweetHome.tsx ***!
   \*******************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-eval("\nexports.__esModule = true;\nvar elements = __webpack_require__(/*! typed-html */ \"./node_modules/typed-html/dist/src/elements.js\");\nvar HomeSweetHome = function () {\n    return elements.createElement(\"button\", { id: \"home\" }, \" \\uBCF4\\uC77C\\uB7EC \\uD55C \\uB300 \\uB194\\uB4DC\\uB9AC\\uAE30 \");\n};\nexports.default = HomeSweetHome;\n\n\n//# sourceURL=webpack://gittoorami/./src/HomeSweetHome.tsx?");
+eval("\nexports.__esModule = true;\nvar elements = __webpack_require__(/*! typed-html */ \"./node_modules/typed-html/dist/src/elements.js\");\nvar Component_1 = __webpack_require__(/*! ./components/core/Component */ \"./src/components/core/Component.ts\");\nvar HomeSweetHome = function () {\n    var _a = Component_1[\"default\"].useState(0), count = _a[0], setCount = _a[1];\n    var handleClickButton = function () { return setCount(count + 1); };\n    Component_1[\"default\"].addEvent('click', '#home', handleClickButton);\n    return (elements.createElement(\"div\", null,\n        elements.createElement(\"div\", null,\n            \"counter: \",\n            count),\n        elements.createElement(\"button\", { id: \"home\" }, \"\\uBCF4\\uC77C\\uB7EC \\uD55C \\uB300 \\uB193\\uC544\\uB4DC\\uB9AC\\uAE30\")));\n};\nexports.default = HomeSweetHome;\n\n\n//# sourceURL=webpack://gittoorami/./src/HomeSweetHome.tsx?");
+
+/***/ }),
+
+/***/ "./src/components/core/Component.ts":
+/*!******************************************!*\
+  !*** ./src/components/core/Component.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+eval("\nexports.__esModule = true;\nvar Component = function () {\n    var $target;\n    var $tsx;\n    // hooks\n    var stateList = [];\n    var idx = 0;\n    // events\n    var eventList = [];\n    var init = function (target, tsx) {\n        $target = target;\n        $tsx = tsx;\n        render();\n    };\n    var render = function () {\n        idx = 0;\n        $target.innerHTML = $tsx();\n        document.addEventListener('click', listener);\n    };\n    var listener = function (e) {\n        eventList.forEach(function (event) {\n            console.log(e.target, event.target);\n            if (e.target.id === event.target) {\n                e.preventDefault();\n                event.handler();\n                console.log(event);\n            }\n        });\n    };\n    var addEvent = function (eventType, target, handler) {\n        // const eventTarget = document.querySelector(target)\n        // eventTarget.addEventListener(eventType, handler)\n        eventList.push({ eventType: eventType, target: target, handler: handler });\n    };\n    var useState = function (initialValue) {\n        var i = idx++;\n        var state = stateList[i] || initialValue;\n        var setState = function (newState) {\n            stateList[idx] = newState;\n            render();\n        };\n        return [state, setState];\n    };\n    return { init: init, render: render, useState: useState, addEvent: addEvent };\n};\nexports.default = Component();\n\n\n//# sourceURL=webpack://gittoorami/./src/components/core/Component.ts?");
 
 /***/ }),
 
@@ -116,7 +136,7 @@ eval("\nexports.__esModule = true;\nvar elements = __webpack_require__(/*! typed
   \**********************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-eval("\nexports.__esModule = true;\nvar HomeSweetHome_1 = __webpack_require__(/*! ./HomeSweetHome */ \"./src/HomeSweetHome.tsx\");\n__webpack_require__(/*! ../styles/index.css */ \"./styles/index.css\");\nvar App = function () {\n    var $root = document.querySelector('#root');\n    $root.innerHTML = HomeSweetHome_1[\"default\"]();\n};\nwindow.addEventListener('DOMContentLoaded', App);\n\n\n//# sourceURL=webpack://gittoorami/./src/index.ts?");
+eval("\nexports.__esModule = true;\n__webpack_require__(/*! ../styles/index.css */ \"./styles/index.css\");\nvar App_1 = __webpack_require__(/*! ./App */ \"./src/App.tsx\");\nvar Component_1 = __webpack_require__(/*! ./components/core/Component */ \"./src/components/core/Component.ts\");\nvar Root = function () {\n    var $root = document.querySelector('#root');\n    Component_1[\"default\"].init($root, App_1[\"default\"]);\n};\nwindow.addEventListener('DOMContentLoaded', Root);\n\n\n//# sourceURL=webpack://gittoorami/./src/index.ts?");
 
 /***/ }),
 

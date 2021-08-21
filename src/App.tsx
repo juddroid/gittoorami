@@ -1,7 +1,8 @@
 import * as elements from 'typed-html';
+import HomeSweetHome from './HomeSweetHome';
 
 const App = () => {
-  return <h1>Hello world;</h1>;
+  return <HomeSweetHome />;
 };
 
 export default App;
