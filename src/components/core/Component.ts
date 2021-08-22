@@ -4,6 +4,7 @@ interface Tsx {
 
 interface EventSet {
   click: EventProps[];
+  change: EventProps[];
 }
 
 interface EventProps {
@@ -22,6 +23,7 @@ const Component = () => {
   // events
   let eventSet: EventSet = {
     click: [],
+    change: [],
   };
 
   const init = (target: Element, tsx: Tsx) => {
@@ -36,11 +38,12 @@ const Component = () => {
     eventSet['click'].length = 0;
 
     $target.innerHTML = $tsx();
-    document.addEventListener('click', listener);
+    // document.addEventListener('click', (e) => listener(e, 'click'));
+    // document.addEventListener('change', (e) => listener(e, 'change'));
   };
 
-  const listener = (e: any) => {
-    eventSet['click'].forEach((event: any) => {
+  const listener = (e: any, eventType: string) => {
+    eventSet[eventType].forEach((event: any) => {
       if (e.target.id === event.id) {
         e.preventDefault();
         event.handler();
@@ -50,7 +53,6 @@ const Component = () => {
 
   const addEvent = (eventType: string, id: string, handler: any) => {
     eventSet[eventType].push({ id, handler });
-    console.log(eventSet);
   };
 
   const useState = (initialValue: any) => {
