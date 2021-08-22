@@ -1,40 +1,39 @@
 import { createElement, render } from '../../utils';
 
 const Raccoonact = (() => {
-  let hooks = [];
+  let stateList = [];
   let idx = 0;
   // function workLoop() {
   //   idx = 0;
-  //   render(hooks)();
+  //   render(stateList)();
   //   setTimeout(workLoop, 300);
   // }
   // setTimeout(workLoop, 300);
-  function useState(initVal) {
-    let state = hooks[idx] || initVal;
+  const useState = (initialValue) => {
+    let state = stateList[idx] || initialValue;
     let _idx = idx;
     let setState = (newVal) => {
-      hooks[_idx] = newVal;
+      stateList[_idx] = newVal;
       idx = 0;
-      render(hooks)();
+      render(stateList)();
     };
     idx++;
     return [state, setState];
-  }
-  function useRef(val) {
-    return useState({ current: val })[0];
-  }
-  function useEffect(cb, depArray) {
-    const oldDeps = hooks[idx];
+  };
+  const useRef = (value) => useState({ current: value })[0];
+
+  const useEffect = (cb, deps) => {
+    const oldDeps = stateList[idx];
     let hasChanged = true;
-    if (oldDeps) {
-      hasChanged = depArray.some((dep, i) => !Object.is(dep, oldDeps[i]));
-    }
+    if (oldDeps)
+      hasChanged = deps.some((dep, i) => !Object.is(dep, oldDeps[i]));
     if (hasChanged) cb();
-    hooks[idx] = depArray;
-  }
+    stateList[idx] = deps;
+  };
+
   return {
     useState,
-    render: render(hooks),
+    render: render(stateList),
     useEffect,
     useRef,
     createElement,

@@ -11,10 +11,10 @@ export const render =
     while (root.firstChild) {
       root.removeChild(root.firstChild);
     }
-    const Comp = reconcile(Component, root);
+    const renderDom = getRenderDom(Component, root);
     _Component = Component;
     _root = root;
-    const dom = createDom(Comp);
+    const dom = createDom(renderDom);
     // mount the new ones
     root.appendChild(dom);
   };
@@ -40,7 +40,6 @@ const createTextElement = (text) => {
   };
 };
 
-// recursive
 export const createDom = (fiber) => {
   const dom =
     fiber.type === 'TEXT_ELEMENT'
@@ -51,10 +50,9 @@ export const createDom = (fiber) => {
   updateDom(dom, {}, props);
   if (props.children) {
     props.children.forEach((child) => {
-      // recursion
       if (Array.isArray(child)) {
-        child.forEach((x) => {
-          dom.appendChild(createDom(x));
+        child.forEach((el) => {
+          dom.appendChild(createDom(el));
         });
       } else {
         dom.appendChild(createDom(child));
@@ -80,16 +78,12 @@ const updateDom = (dom, prevProps, nextProps) => {
   Object.keys(prevProps)
     .filter(isProperty)
     .filter(isGone(prevProps, nextProps))
-    .forEach((name) => {
-      dom[name] = '';
-    });
+    .forEach((name) => (dom[name] = ''));
   // Set new or changed properties
   Object.keys(nextProps)
     .filter(isProperty)
     .filter(isNew(prevProps, nextProps))
-    .forEach((name) => {
-      dom[name] = nextProps[name];
-    });
+    .forEach((name) => (dom[name] = nextProps[name]));
   // Add event listeners
   Object.keys(nextProps)
     .filter(isEvent)
@@ -101,19 +95,21 @@ const updateDom = (dom, prevProps, nextProps) => {
 };
 
 // recursive funciton
-export const reconcile = (Component, root) => {
+export const getRenderDom = (Component, root) => {
   const type = Component.type;
-  if (Array.isArray(Component)) {
-    return Component.map((child) => reconcile(child, root));
-  }
-  const Comp = typeof type === 'string' ? Component : type();
-  if (Comp.props && Comp.props.children) {
-    Comp.props.children.forEach((child, idx) => {
+  if (Array.isArray(Component))
+    return Component.map((child) => getRenderDom(child, root));
+  const renderDom = typeof type === 'string' ? Component : type();
+  if (renderDom.props && renderDom.props.children) {
+    renderDom.props.children.forEach((child, idx) => {
       if (typeof child.type !== 'string') {
         // recursive call for children
-        Comp.props.children[idx] = reconcile(Comp.props.children[idx], root);
+        renderDom.props.children[idx] = getRenderDom(
+          renderDom.props.children[idx],
+          root
+        );
       }
     });
   }
-  return Comp;
+  return renderDom;
 };
