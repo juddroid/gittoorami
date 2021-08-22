@@ -3,17 +3,19 @@ import { createElement, render } from '../../utils';
 const Raccoonact = (() => {
   let hooks = [];
   let idx = 0;
-  function workLoop() {
-    idx = 0;
-    render(hooks)();
-    setTimeout(workLoop, 300);
-  }
-  setTimeout(workLoop, 300);
+  // function workLoop() {
+  //   idx = 0;
+  //   render(hooks)();
+  //   setTimeout(workLoop, 300);
+  // }
+  // setTimeout(workLoop, 300);
   function useState(initVal) {
     let state = hooks[idx] || initVal;
     let _idx = idx;
     let setState = (newVal) => {
       hooks[_idx] = newVal;
+      idx = 0;
+      render(hooks)();
     };
     idx++;
     return [state, setState];

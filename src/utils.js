@@ -2,15 +2,12 @@ let _Component = null;
 let _root = null;
 let _hooks = null;
 
-export let render =
+export const render =
   (hooks) =>
   (Component = _Component, root = _root) => {
-    if (JSON.stringify(hooks) === _hooks) {
-      return; // shitty memoization!
-    } else {
-      _hooks = JSON.stringify(hooks);
-    }
-    // nuke the existing rendered elements
+    console.log(hooks);
+    if (JSON.stringify(hooks) === _hooks) return;
+    else _hooks = JSON.stringify(hooks);
     while (root.firstChild) {
       root.removeChild(root.firstChild);
     }
@@ -22,7 +19,7 @@ export let render =
     root.appendChild(dom);
   };
 
-export function createElement(type, props, ...children) {
+export const createElement = (type, props, ...children) => {
   return {
     type,
     props: {
@@ -32,8 +29,8 @@ export function createElement(type, props, ...children) {
       ),
     },
   };
-}
-function createTextElement(text) {
+};
+const createTextElement = (text) => {
   return {
     type: 'TEXT_ELEMENT',
     props: {
@@ -41,14 +38,15 @@ function createTextElement(text) {
       children: [],
     },
   };
-}
+};
 
 // recursive
-export function createDom(fiber) {
+export const createDom = (fiber) => {
   const dom =
     fiber.type === 'TEXT_ELEMENT'
       ? document.createTextNode('')
       : document.createElement(fiber.type);
+
   const props = fiber.props || {};
   updateDom(dom, {}, props);
   if (props.children) {
@@ -64,12 +62,12 @@ export function createDom(fiber) {
     });
   }
   return dom;
-}
+};
 const isEvent = (key) => key.startsWith('on');
 const isProperty = (key) => key !== 'children' && !isEvent(key);
 const isNew = (prev, next) => (key) => prev[key] !== next[key];
 const isGone = (prev, next) => (key) => !(key in next);
-function updateDom(dom, prevProps, nextProps) {
+const updateDom = (dom, prevProps, nextProps) => {
   //Remove old or changed event listeners
   Object.keys(prevProps)
     .filter(isEvent)
@@ -100,10 +98,10 @@ function updateDom(dom, prevProps, nextProps) {
       const eventType = name.toLowerCase().substring(2);
       dom.addEventListener(eventType, nextProps[name]);
     });
-}
+};
 
 // recursive funciton
-export function reconcile(Component, root) {
+export const reconcile = (Component, root) => {
   const type = Component.type;
   if (Array.isArray(Component)) {
     return Component.map((child) => reconcile(child, root));
@@ -118,4 +116,4 @@ export function reconcile(Component, root) {
     });
   }
   return Comp;
-}
+};
