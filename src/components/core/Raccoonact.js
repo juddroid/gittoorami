@@ -12,12 +12,15 @@ const Raccoonact = (() => {
   const useState = (initialValue) => {
     let state = stateList[idx] || initialValue;
     let _idx = idx;
+
     let setState = (newVal) => {
       stateList[_idx] = newVal;
       idx = 0;
+      console.log(stateList);
       render(stateList)();
     };
     idx++;
+
     return [state, setState];
   };
   const useRef = (value) => useState({ current: value })[0];

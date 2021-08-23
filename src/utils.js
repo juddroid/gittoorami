@@ -1,13 +1,12 @@
 let _Component = null;
 let _root = null;
-let _hooks = null;
+let _stateList = null;
 
 export const render =
-  (hooks) =>
+  (stateList) =>
   (Component = _Component, root = _root) => {
-    console.log(hooks);
-    if (JSON.stringify(hooks) === _hooks) return;
-    else _hooks = JSON.stringify(hooks);
+    if (JSON.stringify(stateList) === _stateList) return;
+    else _stateList = JSON.stringify(stateList);
     while (root.firstChild) {
       root.removeChild(root.firstChild);
     }
