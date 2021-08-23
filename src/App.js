@@ -1,6 +1,6 @@
 /** @jsx createElement */
-import { createElement } from '../src/utils';
-import Raccoonact from './components/core/Raccoonact';
+import { createElement } from '../src/utils.js';
+import Raccoonact from './components/core/Raccoonact.js';
 
 const App = () => {
   const [count, setCount] = Raccoonact.useState(1);

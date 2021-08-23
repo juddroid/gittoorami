@@ -1,4 +1,4 @@
-import { createElement, render } from '../../utils';
+import { createElement, render } from '../../utils.js';
 
 const Raccoonact = (() => {
   let stateList = [];
