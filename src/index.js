@@ -1,8 +1,7 @@
 /** @jsx createElement */
-import '../styles/index.css';
-import App from './App';
-import Raccoonact from './components/core/Raccoonact';
-import { createElement } from '../src/utils';
+import App from './App.js';
+import Raccoonact from './components/core/Raccoonact.js';
+import { createElement } from '../src/utils.js';
 
 const rootElement = document.getElementById('root');
 console.log(App());
